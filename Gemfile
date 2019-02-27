@@ -4,10 +4,6 @@ source 'https://rubygems.org'
 # Groups
 #===============================
 
-group :development, :test do
-  gem 'rake'
-end
-
 group :test do
   gem 'activesupport'
   gem 'capybara'
