@@ -1,0 +1,2 @@
+# Cucumber Profiles
+default: -r features
