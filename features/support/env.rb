@@ -12,20 +12,8 @@ SERVER_URL  ||= ENV['SERVER_URL']
 WEB_BROWSER ||= (ENV['WEB_BROWSER'].downcase.to_sym)
 
 # Local development
-Capybara.register_driver WEB_BROWSER do |app| 
+Capybara.register_driver(WEB_BROWSER) do |app|
   case WEB_BROWSER
-  when :chrome
-    prefs = {
-      prompt_for_download: false,
-      credentials_enable_service: false 
-    }
-
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_preference(:download, prefs)
-    options.add_argument("disable-infobars")
-
-  Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: options)
-
   when :firefox
     additional_prefs = Selenium::WebDriver::Firefox::Profile.new
     additional_prefs.native_events = true
@@ -43,6 +31,28 @@ Capybara.register_driver WEB_BROWSER do |app|
     additional_prefs['pdfjs.disabled'] = true
     
     Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: additional_prefs)
+
+  when :safari
+    caps = Selenium::WebDriver::Remote::Capabilities.safari
+    caps['platform'] = 'macOS 10.14'
+    caps['version'] = '12.0'
+    caps['recordVideo'] = false
+    caps['recordScreenshots'] = false
+
+    Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: caps)
+
+  else :chrome
+    prefs = {
+      prompt_for_download: false,
+      credentials_enable_service: false
+    }
+
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_preference(:download, prefs)
+    options.add_argument("disable-infobars")
+
+    Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: options)
+
   end
   # Enable this to see configured 'options'/'args' in the browser!
   # binding.pry 
