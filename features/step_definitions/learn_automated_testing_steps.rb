@@ -1,5 +1,5 @@
 Given(/^I am on the landing page$/) do
-  expect(page.title).to eq('Swag Labs') 
+  expect(page.title).to eq('Swag Labs')
   page.has_selector?("#login_button_container")
 end
 
@@ -13,6 +13,8 @@ When(/^I log into the application with user "(.*?)"$/) do |user|
 end
 
 Then("I see the homepage") do
-  binding.pry
-  pending # Write code here that turns the phrase above into concrete actions
+  # pending # Write code here that turns the phrase above into concrete actions
+  expect(page.title).to eq('Swag Labs')
+  expect(current_path).to eq('/inventory.html')
+  expect(page).to have_content("Products")
 end
