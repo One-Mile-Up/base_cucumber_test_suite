@@ -1,5 +1,5 @@
 # Overview
-This is a base testing suite that is for leaning how to apply automated testing methodologies.
+This is a base testing suite that is for learning how to apply automated testing methodologies.
 
 ## Contributing
 PLEASE do!
