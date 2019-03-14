@@ -72,20 +72,39 @@ When(/^I click the Continue Shopping link$/) do
 end
 
 Then("I am returned to the products page") do
+  binding.pry
   have_selector('div.inventory_list')
 end
 
-Given(/^I log into the products page with user "(.*?)"$/) do |user|
-  find('[data-test="username"]').send_keys(user)
-  find('[data-test="password"]').send_keys('secret_sauce')
-  find('.btn_action').click
-  have_selector('div.inventory_list')
-end
+# Given(/^I login with user "(.*?)"$/) do |user|
+#   find('[data-test="username"]').send_keys(user)
+#   find('[data-test="password"]').send_keys('secret_sauce')
+#   find('.btn_action').click
+#   have_selector('div.inventory_list')
+# end
 
-When(/^I click on the hamburger menu and then on the About prompt$/) do
-  click_on(class: 'btn_secondary')
-end
+# When(/^I click on the hamburger menu and then on the About prompt$/) do
+#   binding.pry
+#   click_on('Open Menu')
+# end
 
-Then("I see the Sauce Labs home page") do
-  have_selector('div.inventory_list')
-end
+# Then("I see the Sauce Labs home page") do
+#   have_selector('div.inventory_list')
+# end
+
+# Given(/^I login with user "(.*?)"$/) do |user|
+  #   find('[data-test="username"]').send_keys(user)
+  #   find('[data-test="password"]').send_keys('secret_sauce')
+  #   find('.btn_action').click
+  #   have_selector('div.inventory_list')
+  # end
+  
+  # When(/^I click on the hamburger menu and click to log out$/) do
+  #   binding.pry
+  #   click_on('Open Menu')
+  # end
+  
+  # Then("I see the login page") do
+  #   expect(page.title).to eq('Swag Labs') 
+  #   page.has_selector?("#login_button_container")
+  # end
