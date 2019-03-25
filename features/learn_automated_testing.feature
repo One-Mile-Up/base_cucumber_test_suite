@@ -25,11 +25,11 @@ Feature: Learn Automated Testing
      Then   I am returned to the products page
 
   Scenario: I navigate to the About page
-    Given   I login with user "standard_user"
-     When   I click on the hamburger menu and then on the About prompt
+    Given   I open the hamburger menu
+     When   I click on the About prompt
      Then   I see the Sauce Labs home page
 
   Scenario: I log out of the Swag Labs practice website
-    Given   I log in with user "standard_user"
-     When   I click on the hamburger menu and click to log out
+    Given   I click on the hamburger menu
+     When   I click to log out
      Then   I see the login page

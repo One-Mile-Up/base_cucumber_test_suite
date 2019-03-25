@@ -75,35 +75,27 @@ Then("I am returned to the products page") do
   expect(page.current_path).to eq('/inventory.html')
 end
 
-# Given(/^I login with user "(.*?)"$/) do |user|
-#   find('[data-test="username"]').send_keys(user)
-#   find('[data-test="password"]').send_keys('secret_sauce')
-#   find('.btn_action').click
-#   have_selector('div.inventory_list')
-# end
+Given(/^I open the hamburger menu$/) do
+  find(".bm-burger-button").click
+end
 
-# When(/^I click on the hamburger menu and then on the About prompt$/) do
-#   binding.pry
-#   click_on('Open Menu')
-# end
+When(/^I click on the About prompt$/) do
+  find('#about_sidebar_link').click
+end
 
-# Then("I see the Sauce Labs home page") do
-#   have_selector('div.inventory_list')
-# end
+Then("I see the Sauce Labs home page") do
+  expect(page.current_url).to eq('https://saucelabs.com/')
+end
 
-# Given(/^I login with user "(.*?)"$/) do |user|
-  #   find('[data-test="username"]').send_keys(user)
-  #   find('[data-test="password"]').send_keys('secret_sauce')
-  #   find('.btn_action').click
-  #   have_selector('div.inventory_list')
-  # end
+Given(/^I click on the hamburger menu$/) do
+  find(".bm-burger-button").click
+end
   
-  # When(/^I click on the hamburger menu and click to log out$/) do
-  #   binding.pry
-  #   click_on('Open Menu')
-  # end
+When(/^I click to log out$/) do
+  find('#logout_sidebar_link').click
+end
   
-  # Then("I see the login page") do
-  #   expect(page.title).to eq('Swag Labs') 
-  #   page.has_selector?("#login_button_container")
-  # end
+Then("I see the login page") do
+  expect(page.title).to eq('Swag Labs') 
+  page.has_selector?("#login_button_container")
+end
