@@ -13,58 +13,57 @@ When(/^I log into the application with user "(.*?)"$/) do |user|
 end
 
 Then("I see the homepage") do
+  # binding.pry
   have_selector('div.inventory_list')
+  expect(page.current_path).to eq('/inventory.html')
 end
 
-# Given(/^I am logged in with user "(.*?)" and the cart is empty$/) do |user|
-#   find('[data-test="username"]').send_keys(user)
-#   find('[data-test="password"]').send_keys('secret_sauce')
-#   find('.btn_action').click
-#   have_selector('div.inventory_list')
-# end
+Given(/^I see the cart is empty$/) do
+  find("#shopping_cart_container")
+  # Make sure that nothing is in the cart currently
+  expect(page.has_css?(".fa-layers-counter")).to eq(false)
+end
 
-# When(/^I click to add the item I want$/) do
-#   click_on(class: 'btn_primary')
-# end
+When(/^I click to add the item I want$/) do
+  find_all(".btn_primary")[0].click
+end
 
-# Then("I see number of items in the shopping cart increment up by 1") do
-  
-# end
+Then("I see number of items in the shopping cart increment up by 1") do
+  expect(find('.fa-layers-counter').text).to eq('1')
+end
 
-# Given(/^I have an item in my shopping cart$/) do
-#   click_button('ADD TO CART')
-#   binding.pry
-# end
+Given(/^I have an item in my shopping cart$/) do
+  find_all(".btn_primary")[0].click
+  find_all(".btn_primary")[1].click
+  expect(find('.fa-layers-counter').text).to eq('2')
+end
 
-# When(/^I click on the remove button$/) do
-  
-# end
+When(/^I click on the remove button$/) do
+  find_all(".btn_secondary")[0].click
+end
 
-# Then("I see the number of items in the cart decrease by 1") do
-  
-# end
+Then("I see the number of items in the cart decrease by 1") do
+  expect(find('.fa-layers-counter').text).to eq('1')
+end
 
-Given(/^I log into the products page with user "(.*?)"$/) do |user|
-  find('[data-test="username"]').send_keys(user)
-  find('[data-test="password"]').send_keys('secret_sauce')
-  find('.btn_action').click
-  have_selector('div.inventory_list')
+Given(/^I select items to add to the shopping cart$/) do
+  find_all(".btn_primary")[2].click
+  find_all(".btn_primary")[3].click
+  expect(find('.fa-layers-counter').text).to eq('2')
 end
 
 When(/^I click on the shopping cart$/) do
   click_on(class: 'shopping_cart_link')
+  expect(page.current_path).to eq('/cart.html')
 end
 
 Then("I can see the items I have selected") do
-  have_selector('div#cart_contents_container')
+  expect(find_all('.cart_item').length).to eq(2)
 end
 
-Given(/^I login with user "(.*?)" and enter the shopping cart$/) do |user|
-  find('[data-test="username"]').send_keys(user)
-  find('[data-test="password"]').send_keys('secret_sauce')
-  find('.btn_action').click
-  have_selector('div.inventory_list')
+Given(/^I enter the shopping cart$/) do
   click_on(class: 'shopping_cart_link')
+  expect(page.current_path).to eq('/cart.html')
 end
 
 When(/^I click the Continue Shopping link$/) do
@@ -72,8 +71,8 @@ When(/^I click the Continue Shopping link$/) do
 end
 
 Then("I am returned to the products page") do
-  binding.pry
   have_selector('div.inventory_list')
+  expect(page.current_path).to eq('/inventory.html')
 end
 
 # Given(/^I login with user "(.*?)"$/) do |user|

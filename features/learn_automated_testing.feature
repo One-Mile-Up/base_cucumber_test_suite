@@ -1,12 +1,11 @@
 Feature: Learn Automated Testing
-
-  Scenario: I login to Swag Labs practice website
+  Background: Log into application
     Given   I am on the landing page
-     When   I log into the application with user "standard_user"
+     When   I log into the application with user "standard_user" 
      Then   I see the homepage 
     
   Scenario: I add an item to the shopping cart
-    Given   I am logged in with user "standard_user" and the cart is empty
+    Given   I see the cart is empty
      When   I click to add the item I want
      Then   I see number of items in the shopping cart increment up by 1
 
@@ -16,12 +15,12 @@ Feature: Learn Automated Testing
      Then   I see the number of items in the cart decrease by 1
 
   Scenario: I visit the shopping cart
-    Given   I log into the products page with user "standard_user"
+    Given   I select items to add to the shopping cart
      When   I click on the shopping cart
      Then   I can see the items I have selected
 
   Scenario: I resume shopping
-    Given   I login with user "standard_user" and enter the shopping cart
+    Given   I enter the shopping cart
      When   I click the Continue Shopping link
      Then   I am returned to the products page
 
