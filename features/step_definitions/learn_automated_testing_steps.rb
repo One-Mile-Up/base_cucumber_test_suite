@@ -32,7 +32,7 @@ Then("I see number of items in the shopping cart increment up by 1") do
   expect(find('.fa-layers-counter').text).to eq('1')
 end
 
-Given(/^I have an item in my shopping cart$/) do
+Given(/^I have 2 items in my shopping cart$/) do
   find_all(".btn_primary")[0].click
   find_all(".btn_primary")[1].click
   expect(find('.fa-layers-counter').text).to eq('2')
@@ -61,6 +61,25 @@ Then("I can see the items I have selected") do
   expect(find_all('.cart_item').length).to eq(2)
 end
 
+Given(/^I add items to the shopping cart and enter the shopping cart$/) do
+  find_all(".btn_primary")[4].click
+  find_all(".btn_primary")[1].click
+  expect(find('.fa-layers-counter').text).to eq('2')
+  click_on(class: 'shopping_cart_link')
+end
+
+When(/^I click on the remove button for a specific item$/) do
+  expect(find_all('.inventory_item_name').length).to eq(2)
+  expect(find_all('.inventory_item_name')[0].text).to eq('Sauce Labs Onesie')
+  expect(find_all('.inventory_item_name')[1].text).to eq('Sauce Labs Bike Light')
+  find_all('.btn_secondary')[1].click
+end
+
+Then('I see the items in my shopping cart decrease by the one I clicked') do
+  expect(find_all('.inventory_item_name').length).to eq(1)
+  expect(find_all('.inventory_item_name')[0].text).to eq('Sauce Labs Onesie')
+end
+
 Given(/^I enter the shopping cart$/) do
   click_on(class: 'shopping_cart_link')
   expect(page.current_path).to eq('/cart.html')
@@ -73,6 +92,50 @@ end
 Then("I am returned to the products page") do
   have_selector('div.inventory_list')
   expect(page.current_path).to eq('/inventory.html')
+end
+
+Given(/^Items are sorted A-Z by default$/) do
+  expect(find_all('.inventory_item_name').length).to eq(6)
+  expect(find_all('.inventory_item_name')[0].text).to eq('Sauce Labs Backpack')
+  expect(find_all('.inventory_item_name')[5].text).to eq('Test.allTheThings() T-Shirt (Red)')
+end
+
+When(/^I click the filter to sort Z-A$/) do
+  page.select 'Name (Z to A)'
+end
+
+Then("Items are sorted in Z-A order") do
+  expect(find_all('.inventory_item_name').length).to eq(6)
+  expect(find_all('.inventory_item_name')[0].text).to eq('Test.allTheThings() T-Shirt (Red)')
+  expect(find_all('.inventory_item_name')[5].text).to eq('Sauce Labs Backpack')
+end
+
+Given(/^Items not sorted by price low to high by default$/) do
+  expect(find_all('.inventory_item_price').length).to eq(6)
+  expect(find_all('.inventory_item_price')[0].text).to eq('$29.99')
+  expect(find_all('.inventory_item_price')[5].text).to eq('$15.99')
+end
+
+When(/^I click the filter to sort by Price low to high$/) do
+  page.select 'Price (low to high)'
+end
+
+Then("Items are sorted in low to high price order") do
+  expect(find_all('.inventory_item_price').length).to eq(6)
+  expect(find_all('.inventory_item_price')[0].text).to eq('$7.99')
+  expect(find_all('.inventory_item_price')[5].text).to eq('$49.99')
+end
+
+Given(/^The sidebar menu is not open$/) do
+  expect(page).not_to have_selector('.bm-overlay')
+end
+
+When(/^I click on the hamburger menu button$/) do
+  find('.bm-burger-button').click
+end
+
+Then("I see the sidebar menu is open") do
+  expect(page).to have_selector('.bm-overlay')
 end
 
 Given(/^I open the hamburger menu$/) do
