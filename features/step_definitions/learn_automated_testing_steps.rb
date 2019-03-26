@@ -13,8 +13,7 @@ When(/^I log into the application with user "(.*?)"$/) do |user|
 end
 
 Then("I see the homepage") do
-  # binding.pry
-  have_selector('div.inventory_list')
+  expect(page).to have_selector('div.inventory_list')
   expect(page.current_path).to eq('/inventory.html')
 end
 
@@ -28,6 +27,48 @@ end
 
 Then("I see that item's page") do
   expect(page.current_url).to eq('https://www.saucedemo.com/inventory-item.html?id=4')
+end
+
+Given(/^I navigate to the first item's specific item page$/) do
+  find_all('.inventory_item_name')[0].click
+  expect(page.current_url).to eq('https://www.saucedemo.com/inventory-item.html?id=4')
+end
+
+When(/^I click to add it to the cart$/) do
+  find('.btn_primary').click
+end
+
+Then("The cart is incremented up by 1") do
+  expect(find('.fa-layers-counter').text).to eq('1')
+end
+
+Given(/^I navigate to the first item's specific item page and add it to the cart$/) do
+  find_all('.inventory_item_name')[0].click
+  expect(page.current_url).to eq('https://www.saucedemo.com/inventory-item.html?id=4')
+  find('.btn_primary').click
+  expect(find('.fa-layers-counter').text).to eq('1')
+end
+
+When(/^I click the Remove button$/) do
+  find('.btn_secondary').click
+end
+
+Then("I see the cart contents empty") do
+  expect(page.has_css?(".fa-layers-counter")).to eq(false)
+end
+
+Given(/^I move to the item page for the first item$/) do
+  find_all('.inventory_item_name')[0].click
+  expect(page.current_url).to eq('https://www.saucedemo.com/inventory-item.html?id=4')
+end
+
+When(/^I click Back button$/) do
+  find('.inventory_details_back_button').click
+end
+
+Then("I am back on the home page") do
+  expect(page).to have_selector('div.inventory_list')
+  expect(page.current_path).to eq('/inventory.html')
 end
 
 Given(/^I see the cart is empty$/) do
@@ -50,7 +91,7 @@ Given(/^I have 2 items in my shopping cart$/) do
   expect(find('.fa-layers-counter').text).to eq('2')
 end
 
-When(/^I click on the remove button$/) do
+When(/^I click on the Remove button$/) do
   find_all(".btn_secondary")[0].click
 end
 
@@ -102,7 +143,7 @@ When(/^I click the Continue Shopping link$/) do
 end
 
 Then("I am returned to the products page") do
-  have_selector('div.inventory_list')
+  expect(page).to have_selector('div.inventory_list')
   expect(page.current_path).to eq('/inventory.html')
 end
 

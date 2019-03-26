@@ -8,15 +8,30 @@ Feature: Learn Automated Testing
     Given   I see the list of all items
      When   I click on the link to the first item
      Then   I see that item's page
+
+  Scenario: I can add an item to the cart from it's specific item page
+    Given   I navigate to the first item's specific item page
+     When   I click to add it to the cart
+     Then   The cart is incremented up by 1
+
+  Scenario: I can remove an item from the cart from it's specific item page
+    Given   I navigate to the first item's specific item page and add it to the cart
+     When   I click the Remove button
+     Then   I see the cart contents empty
+
+  Scenario: I move back to the main page from the specific item page
+    Given   I move to the item page for the first item
+     When   I click Back button
+     Then   I am back on the home page
     
-  Scenario: I add an item to the shopping cart
+  Scenario: I add an item to the shopping cart from the main page
     Given   I see the cart is empty
      When   I click to add the item I want
      Then   I see number of items in the shopping cart increment up by 1
 
   Scenario: I remove an item from the shopping cart
     Given   I have 2 items in my shopping cart
-     When   I click on the remove button
+     When   I click on the Remove button
      Then   I see the number of items in the cart decrease by 1
 
   Scenario: I visit the shopping cart
