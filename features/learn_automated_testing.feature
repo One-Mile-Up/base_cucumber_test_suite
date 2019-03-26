@@ -3,6 +3,11 @@ Feature: Learn Automated Testing
     Given   I am on the landing page
      When   I log into the application with user "standard_user" 
      Then   I see the homepage 
+
+  Scenario: I visit the item page for a specific item
+    Given   I see the list of all items
+     When   I click on the link to the first item
+     Then   I see that item's page
     
   Scenario: I add an item to the shopping cart
     Given   I see the cart is empty
@@ -38,6 +43,11 @@ Feature: Learn Automated Testing
     Given   Items not sorted by price low to high by default
      When   I click the filter to sort by Price low to high
      Then   Items are sorted in low to high price order
+
+  Scenario: I sort items using Price (high to low) filter
+    Given   Items not sorted by price high to low by default
+     When   I click the filter to sort by Price high to low
+     Then   Items are sorted in high to low price order
 
   Scenario: I visit the sidebar menu
     Given   The sidebar menu is not open

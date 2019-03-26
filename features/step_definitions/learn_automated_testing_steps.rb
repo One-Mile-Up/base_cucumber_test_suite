@@ -18,6 +18,18 @@ Then("I see the homepage") do
   expect(page.current_path).to eq('/inventory.html')
 end
 
+Given(/^I see the list of all items$/) do
+  expect(find_all('.inventory_item_name').length).to eq(6)
+end
+
+When(/^I click on the link to the first item$/) do
+  find_all('.inventory_item_name')[0].click
+end
+
+Then("I see that item's page") do
+  expect(page.current_url).to eq('https://www.saucedemo.com/inventory-item.html?id=4')
+end
+
 Given(/^I see the cart is empty$/) do
   find("#shopping_cart_container")
   # Make sure that nothing is in the cart currently
@@ -124,6 +136,22 @@ Then("Items are sorted in low to high price order") do
   expect(find_all('.inventory_item_price').length).to eq(6)
   expect(find_all('.inventory_item_price')[0].text).to eq('$7.99')
   expect(find_all('.inventory_item_price')[5].text).to eq('$49.99')
+end
+
+Given(/^Items not sorted by price high to low by default$/) do
+  expect(find_all('.inventory_item_price').length).to eq(6)
+  expect(find_all('.inventory_item_price')[0].text).to eq('$29.99')
+  expect(find_all('.inventory_item_price')[5].text).to eq('$15.99')
+end
+
+When(/^I click the filter to sort by Price high to low$/) do
+  page.select 'Price (high to low)'
+end
+
+Then("Items are sorted in high to low price order") do
+  expect(find_all('.inventory_item_price').length).to eq(6)
+  expect(find_all('.inventory_item_price')[0].text).to eq('$49.99')
+  expect(find_all('.inventory_item_price')[5].text).to eq('$7.99')
 end
 
 Given(/^The sidebar menu is not open$/) do
