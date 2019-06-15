@@ -231,3 +231,9 @@ Then("I see the login page") do
   expect(page.title).to eq('Swag Labs') 
   page.has_selector?("#login_button_container")
 end
+
+
+
+Given("I successfully changed my SSH key to work") do
+  return "BOOYAH!"
+end
