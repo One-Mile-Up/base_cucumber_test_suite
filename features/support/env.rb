@@ -29,7 +29,7 @@ Capybara.register_driver(WEB_BROWSER) do |app|
     additional_prefs['geo.prompt.testing.allow'] = true
     additional_prefs['geo.wifi.uri'] = "file:///tmp/geolocation/geolocation.json"
     additional_prefs['pdfjs.disabled'] = true
-    
+
     Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: additional_prefs)
 
   when :safari
@@ -41,21 +41,32 @@ Capybara.register_driver(WEB_BROWSER) do |app|
 
     Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: caps)
 
+  when :headless_chrome
+    options = Selenium::WebDriver::Chrome::Options.new
+    options.add_argument('--headless')
+    # options.add_argument('--disable-gpu') # Needed in case of running on Windows.
+    options.add_argument('--no-sandbox') # We aren't setting up a specific Chrome user.
+    options.add_argument('--disable-dev-shm-usage') # If you launch a Docker container, by default, the /dev/shm partition will be 64 MB in size, too small to load.
+    options.add_argument('--disable-infobars')
+
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+
   else :chrome
-    prefs = {
+  prefs = {
       prompt_for_download: false,
       credentials_enable_service: false
-    }
+  }
 
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_preference(:download, prefs)
-    options.add_argument("disable-infobars")
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_preference(:download, prefs)
+  options.add_argument('disable-infobars')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-popup-blocking')
 
-    Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: options)
-
+  Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: options)
   end
   # Enable this to see configured 'options'/'args' in the browser!
-  # binding.pry 
+  # binding.pry
 end
 
 Capybara.configure do |config|
