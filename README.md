@@ -1,8 +1,10 @@
 # Overview
 This is a base testing suite that is for learning how to apply automated testing methodologies.
 
+
 ### Contributing
 PLEASE do!
+
 
 ### Tooling
 I am trying my best to keep things as simple and bare-bones as possible here, therefore trying to keep folks from getting stuck in the weeds of setup, etc. 
@@ -11,9 +13,12 @@ In this project we are currently using:
 - Ruby
 - Cucumber / Capybara / Rspec
 
+
 ### Setup
 - Clone this repo
-- cd into the base directory and run `bundle install` (make sure all dependencies are installed and nothing bombed out!)
+- From the base directory, on the command line:
+  - run `bundle install` (make sure all dependencies are installed with no errors before moving on...)
+
 
 ### Run the tests!
 - From the base directory, run an entire feature file...
@@ -25,8 +30,9 @@ In this project we are currently using:
    bundle exec cucumber features/learn_automated_testing.feature:3
    ```
 
-### Run the tests in ___Chrome - headless___!
-- Open the `.env.rb` file located at `features/support/env.rb` and make it look like this:
+
+### Run the tests in Chrome ___headless___!
+- Open the `features/.env` file and make it look like this:
   ```
   # Local browser testing
   # WEB_BROWSER='chrome'
@@ -36,7 +42,7 @@ In this project we are currently using:
   ```
 
 
-### Troubleshooting 
+### Troubleshooting
 
 ##### Using Chromedriver with rbenv on a Mac
 - If you have trouble connecting to Chromedriver and are using rbenv...
