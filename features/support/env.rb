@@ -5,6 +5,7 @@ require 'pry'
 require 'rspec/expectations'
 require 'rubygems'
 require 'selenium-webdriver'
+require 'webdrivers'
 
 Dotenv.load
 
@@ -15,55 +16,27 @@ WEB_BROWSER ||= (ENV['WEB_BROWSER'].downcase.to_sym)
 Capybara.register_driver(WEB_BROWSER) do |app|
   case WEB_BROWSER
   when :firefox
-    additional_prefs = Selenium::WebDriver::Firefox::Profile.new
-    additional_prefs.native_events = true
-    additional_prefs['browser.download.dir'] = "/tmp/webdriver-downloads"
-    additional_prefs['browser.download.folderList'] = 2
-    additional_prefs['browser.helperApps.neverAsk.saveToDisk'] = "application/pdf"
-    additional_prefs['browser.cache.disk.enable'] = false
-    additional_prefs['browser.cache.memory.enable'] = false
-    additional_prefs['browser.fixup.alternate.enabled'] = false
-    additional_prefs['network.http.use-cache'] = false
-    additional_prefs['geo.enabled'] = true
-    additional_prefs['geo.prompt.testing'] = true
-    additional_prefs['geo.prompt.testing.allow'] = true
-    additional_prefs['geo.wifi.uri'] = "file:///tmp/geolocation/geolocation.json"
-    additional_prefs['pdfjs.disabled'] = true
-
-    Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: additional_prefs)
+    Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER)
 
   when :safari
-    caps = Selenium::WebDriver::Remote::Capabilities.safari
-    caps['platform'] = 'macOS 10.14'
-    caps['version'] = '12.0'
-    caps['recordVideo'] = false
-    caps['recordScreenshots'] = false
-
-    Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: caps)
+    Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER)
 
   when :headless_chrome
-    options = Selenium::WebDriver::Chrome::Options.new
+    options = Selenium::WebDriver::Chrome::Options.new(:exclude_switches => ['enable-automation']) # Disables the info-bar "Chrome is being controlled..."
     options.add_argument('--headless')
     # options.add_argument('--disable-gpu') # Needed in case of running on Windows.
     options.add_argument('--no-sandbox') # We aren't setting up a specific Chrome user.
     options.add_argument('--disable-dev-shm-usage') # If you launch a Docker container, by default, the /dev/shm partition will be 64 MB in size, too small to load.
     options.add_argument('--disable-infobars')
 
-    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+    Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: options)
 
   else :chrome
-  prefs = {
-      prompt_for_download: false,
-      credentials_enable_service: false
-  }
+  options = Selenium::WebDriver::Chrome::Options.new(:exclude_switches => ['enable-automation']) # Disables the info-bar "Chrome is being controlled..."
+  options.add_preference('credentials_enable_service', false) # Disable save password prompt
+  options.add_argument("--window-size=1920,1080") # Maximize browser window
 
-  options = Selenium::WebDriver::Chrome::Options.new
-  options.add_preference(:download, prefs)
-  options.add_argument('disable-infobars')
-  options.add_argument('--no-sandbox')
-  options.add_argument('--disable-popup-blocking')
-
-  Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, options: options)
+  Capybara::Selenium::Driver.new(app, browser: WEB_BROWSER, capabilities: options)
   end
   # Enable this to see configured 'options'/'args' in the browser!
   # binding.pry

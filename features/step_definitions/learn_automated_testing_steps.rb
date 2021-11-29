@@ -13,7 +13,7 @@ Then(/^I submit user credentials$/) do
 end
 
 Then("I am on the homepage") do
-  expect(find('.product_label').text).to eq('Products')
+  expect(find('.title').text).to eq('PRODUCTS')
 end
 
 Then(/^I see the inventory list contains (.*?) pictures$/) do |count|

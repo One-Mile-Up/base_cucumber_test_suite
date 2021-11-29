@@ -1,2 +1,2 @@
 # Cucumber Profiles
-default: -r features
+default: -r features --publish-quiet
