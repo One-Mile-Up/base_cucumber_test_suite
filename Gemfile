@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby '3.0.1'
 
 #===============================
 # Groups
@@ -15,5 +14,6 @@ group :test do
   gem 'pry-byebug'
   gem 'rspec'
   gem 'selenium-webdriver'
+  gem 'site_prism'
   gem 'webdrivers'
 end
