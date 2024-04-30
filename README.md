@@ -23,7 +23,7 @@ In this project we are currently using:
 
 ### Run the tests
 
-- From the base directory, run an entire feature file...
+- From the base directory, run an entire feature file
 
    ```bash
    bundle exec cucumber features/learn_automated_testing.feature
