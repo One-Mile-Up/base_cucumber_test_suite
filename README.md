@@ -3,7 +3,7 @@ This is a base testing suite that is for learning how to apply automated testing
 
 
 ### Contributing
-PLEASE do!
+PLEASE do...
 
 
 ### Tooling
